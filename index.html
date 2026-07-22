@@ -1,0 +1,78 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compassplate has shutdown</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column; 
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            background-color: black;
+            color: white;
+        }
+
+        .respect {
+            background-color: black; 
+            border: white solid 2px;
+            color: white;
+            border-radius: 12px;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        .respect:hover {
+            background-color: white;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <img src="compass.gif" alt="Compass">
+    <h1>The U.S. Government has shutdown Compassplate permanently.</h1>
+    <p>No matter how many times I try to combat this, the Government keeps <b>illegally</b> DDoSing the site, overloading our hosting provider, and shutting the site down. Our operation; yes; was illegal, but we were doing what we believed to be right. We didn't directly serve the videos ourselves, we used external providers and just provided a clean UI for users to use Compassplate easier.</p>
+    <button class="respect">Pay your respects</button>
+    <div>
+        <div id="respects-paid"></div>
+    </div>
+</body>
+<script>
+    document.querySelector('.respect').addEventListener('click', function() {
+        addRespects();
+    });
+
+    function addRespects() {
+        let respectsPaid = parseInt(localStorage.getItem('respectsPaid')) || 0;
+        respectsPaid++;
+        localStorage.setItem('respectsPaid', respectsPaid);
+        document.getElementById('respects-paid').textContent = 'Respects paid: ' + respectsPaid;
+
+        blobstorage.setItem('respectsPaid', respectsPaid);
+    }
+
+    window.onload = function() {
+        let respectsPaid = parseInt(localStorage.getItem('respectsPaid')) || 0;
+        document.getElementById('respects-paid').textContent = 'Respects paid: ' + respectsPaid;
+    };
+
+    blobstorage.getItem('respectsPaid').then(function(respectsPaid) {
+        if (respectsPaid !== null) {
+            document.getElementById('respects-paid').textContent = 'Respects paid: ' + respectsPaid;
+        }
+    }).catch(function(error) {
+        console.error('Error retrieving respects from blob storage:', error);
+    });
+
+    document.getElementById('respects-paid').textContent = 'Respects paid: 0';
+</script>
+</html>
