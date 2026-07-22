@@ -1,7 +1,7 @@
 import { put } from '@vercel/blob';
 
 export default async function handler(req, res) {
-  const BLOB_URL = 'https://store_Mv6UwIe2SfRVNOOX.public.blob.vercel-storage.com/respects.json';
+  const BLOB_URL = 'https://store_9wTz64mxJCT4Adpu.public.blob.vercel-storage.com/respects.json';
 
   if (req.method === 'GET') {
     try {
@@ -31,7 +31,7 @@ export default async function handler(req, res) {
 
       const newCount = currentCount + 1;
       await put('respects.json', JSON.stringify({ count: newCount }), {
-        access: 'private',
+        access: 'public',
         addRandomSuffix: false, 
         allowOverwrite: true,
         contentType: 'application/json'
