@@ -31,9 +31,10 @@ export default async function handler(req, res) {
 
       const newCount = currentCount + 1;
       await put('respects.json', JSON.stringify({ count: newCount }), {
-        access: 'public',
+        access: 'private',
         addRandomSuffix: false, 
         allowOverwrite: true,
+        contentType: 'application/json'
       });
 
       return res.status(200).json({ count: newCount });
