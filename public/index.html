@@ -47,32 +47,33 @@
     </div>
 </body>
 <script>
-    document.querySelector('.respect').addEventListener('click', function() {
-        addRespects();
-    });
+    const display = document.getElementById('respects-paid');
+    const button = document.querySelector('.respect');
 
-    function addRespects() {
-        let respectsPaid = parseInt(localStorage.getItem('respectsPaid')) || 0;
-        respectsPaid++;
-        localStorage.setItem('respectsPaid', respectsPaid);
-        document.getElementById('respects-paid').textContent = 'Respects paid: ' + respectsPaid;
-
-        blobstorage.setItem('respectsPaid', respectsPaid);
+    async function loadRespects() {
+        try {
+            const res = await fetch('/api/respect');
+            const data = await res.json();
+            display.textContent = 'Respects paid: ' + (data.count || 0);
+        } catch (err) {
+            console.error('Failed to load respects:', err);
+        }
     }
 
-    window.onload = function() {
-        let respectsPaid = parseInt(localStorage.getItem('respectsPaid')) || 0;
-        document.getElementById('respects-paid').textContent = 'Respects paid: ' + respectsPaid;
-    };
-
-    blobstorage.getItem('respectsPaid').then(function(respectsPaid) {
-        if (respectsPaid !== null) {
-            document.getElementById('respects-paid').textContent = 'Respects paid: ' + respectsPaid;
+    async function addRespects() {
+        button.disabled = true; // disable breifely to prevent multiple clicks
+        try {
+            const res = await fetch('/api/respect', { method: 'POST' });
+            const data = await res.json();
+            display.textContent = 'Respects paid: ' + data.count;
+        } catch (err) {
+            console.error('Failed to add respect:', err);
+        } finally {
+            button.disabled = false;
         }
-    }).catch(function(error) {
-        console.error('Error retrieving respects from blob storage:', error);
-    });
+    }
 
-    document.getElementById('respects-paid').textContent = 'Respects paid: 0';
+    button.addEventListener('click', addRespects);
+    window.onload = loadRespects;
 </script>
 </html>

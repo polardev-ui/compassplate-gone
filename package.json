@@ -1,0 +1,12 @@
+{
+  "name": "compassplate-shutdown",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "@vercel/blob": "^0.27.0"
+  }
+}
